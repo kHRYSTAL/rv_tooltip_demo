@@ -2,6 +2,7 @@ package me.khrystal.tooltip_demo;
 
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -21,16 +22,17 @@ public class SimpleViewHolder extends RecyclerView.ViewHolder implements View.On
     private Button btn1;
     private Button btn2;
     private String mText;
+    private View mParent;
 
-    public SimpleViewHolder(View itemView) {
+    public SimpleViewHolder(View itemView, View parent) {
         super(itemView);
-
+        mParent = parent;
         btn1 = (Button) itemView.findViewById(R.id.item_btn1);
         btn2 = (Button) itemView.findViewById(R.id.item_btn2);
     }
 
-    public void bind(String text, int position) {
-        itemView.setBackgroundColor(Color.parseColor(COLORS[position % COLORS.length]));
+    public void bind(String text) {
+        itemView.setBackgroundColor(Color.parseColor(COLORS[getAdapterPosition() % COLORS.length]));
         mText = text;
         btn1.setText("text:" + text + ":btn1");
         btn2.setText("text:" + text + ":btn2");
@@ -43,10 +45,22 @@ public class SimpleViewHolder extends RecyclerView.ViewHolder implements View.On
         new SimpleTooltip.Builder(v.getContext())
                 .anchorView(v)
                 .text("this is " + mText)
-                .gravity(Gravity.BOTTOM)
+                .gravity(isTop() ? Gravity.TOP : Gravity.BOTTOM)
                 .animated(true)
-                .transparentOverlay(false)
+                .transparentOverlay(true)
                 .build()
                 .show();
+    }
+
+    public boolean isTop() {
+        boolean onTop = true;
+        int rootHeight = mParent.getMeasuredHeight();
+        // display on bottom
+        Log.d("SimpleViewHolder", "rootHeight:" + rootHeight
+                + ",item.getTop()" + itemView.getTop());
+        if (rootHeight / 2 > itemView.getTop()) {
+            onTop = false;
+        }
+        return onTop;
     }
 }

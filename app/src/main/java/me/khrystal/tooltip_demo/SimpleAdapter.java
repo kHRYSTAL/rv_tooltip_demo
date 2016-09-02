@@ -28,13 +28,13 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleViewHolder>{
     @Override
     public SimpleViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View inflate = LayoutInflater.from(mContext).inflate(R.layout.item, parent, false);
-        SimpleViewHolder holder = new SimpleViewHolder(inflate);
+        SimpleViewHolder holder = new SimpleViewHolder(inflate, parent);
         return holder;
     }
 
     @Override
     public void onBindViewHolder(SimpleViewHolder holder, int position) {
-        holder.bind(mDataList.get(position), position);
+        holder.bind(mDataList.get(position));
     }
 
     @Override
