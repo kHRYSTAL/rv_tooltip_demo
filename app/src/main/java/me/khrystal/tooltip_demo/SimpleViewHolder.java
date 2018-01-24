@@ -38,6 +38,10 @@ public class SimpleViewHolder extends RecyclerView.ViewHolder implements View.On
         btn2.setText("text:" + text + ":btn2");
         btn1.setOnClickListener(this);
         btn2.setOnClickListener(this);
+        int rootHeight = mParent.getMeasuredHeight();
+        // display on bottom
+        Log.d("SimpleViewHolder", "rootHeight:" + rootHeight
+                + ",item.getTop()" + itemView.getTop());
     }
 
     @Override
@@ -56,8 +60,8 @@ public class SimpleViewHolder extends RecyclerView.ViewHolder implements View.On
         boolean onTop = true;
         int rootHeight = mParent.getMeasuredHeight();
         // display on bottom
-        Log.d("SimpleViewHolder", "rootHeight:" + rootHeight
-                + ",item.getTop()" + itemView.getTop());
+//        Log.d("SimpleViewHolder", "rootHeight:" + rootHeight
+//                + ",item.getTop()" + itemView.getTop());
         if (rootHeight / 2 > itemView.getTop()) {
             onTop = false;
         }
